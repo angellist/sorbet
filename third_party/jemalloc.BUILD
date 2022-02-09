@@ -28,6 +28,7 @@ JEMALLOC_BUILD_COMMAND = """
   export NM=$$(absolutize $(NM))
   export OBJCOPY=$$(absolutize $(OBJCOPY))
   export CFLAGS=$(CC_FLAGS)
+  export CFLAGS="$${CFLAGS}"
   export CXXFLAGS=$(CC_FLAGS)
   export LTOFLAGS="$$([ "$$(uname)" = "Linux" ] && echo "-flto=thin")" # todo: on next clang toolchain upgrade, check if it's fixed and we can re-enable thinlto on mac
   export EXTRA_CFLAGS="$${LTOFLAGS}"
@@ -40,7 +41,7 @@ JEMALLOC_BUILD_COMMAND = """
       LDFLAGS="$${LDFLAGS} -fuse-ld=lld"
       ;;
     Darwin)
-      LDFLAGS="$${LDFLAGS} -mlinker-version=400"
+      LDFLAGS="$${LDFLAGS} -mlinker-version=450"
       ;;
   esac
 
