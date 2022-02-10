@@ -14,6 +14,12 @@ def register_sorbet_dependencies():
     )
 
     http_archive(
+        name = "rules_cc",
+        urls = _github_public_urls("bazelbuild/rules_cc/releases/download/0.0.1/rules_cc-0.0.1.tar.gz"),
+        sha256 = "4dccbfd22c0def164c8f47458bd50e0c7148f3d92002cdb459c2a96a68498241",
+    )
+
+    http_archive(
         name = "doctest",
         urls = _github_public_urls("onqtam/doctest/archive/7d42bd0fab6c44010c8aed9338bd02bea5feba41.zip"),
         sha256 = "b33c8e954d15a146bb744ca29f4ca204b955530f52b2f8a895746a99cee4f2df",

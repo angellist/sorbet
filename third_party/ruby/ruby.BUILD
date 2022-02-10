@@ -47,6 +47,9 @@ ruby(
         "@com_stripe_ruby_typer//tools/config:darwin": [
             "-mlinker-version=400",
         ],
+        "@com_stripe_ruby_typer//tools/config:darwin_arm64": [
+            "-mlinker-version=400",
+        ],
         "//conditions:default": [],
     }),
     rubygems = "@rubygems_update_stripe//file",
