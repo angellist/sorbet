@@ -12,7 +12,7 @@ common:test --test_env=GTEST_INSTALL_FAILURE_SIGNAL_HANDLER=1
 ##
 ##  Custom toolchain.
 ##
-build --crosstool_top=@llvm_toolchain_12_0_0//:toolchain --copt=-D_LIBCPP_ENABLE_NODISCARD
+build --incompatible_enable_cc_toolchain_resolution --copt=-D_LIBCPP_ENABLE_NODISCARD
 
 ##
 ##  Common build options across all build configurations
@@ -77,6 +77,7 @@ build --define=versioned=false
 build:versioned --workspace_status_command=tools/buildstamp/get_workspace_status --stamp --define=versioned=true
 
 build:dbg-darwin --config=dbg --platforms=@//tools/config:darwin_x86_64
+build:dbg-darwin-arm64 --config=dbg --platforms=@//tools/config:darwin_arm
 build:dbg-linux --config=dbg --platforms=@//tools/config:linux_x86_64
 
 ##
@@ -110,6 +111,9 @@ build:release-linux           --copt=-march=sandybridge
 build:release-sanitized-linux --copt=-march=sandybridge
 
 build:release-mac --config=release-common --platforms=@//tools/config:darwin_x86_64
+
+build:release-mac-arm --config=release-common
+build:release-mac-arm --platforms=@//:darwin_arm
 
 build:release-debug-linux --config=release-linux
 build:release-debug-linux --config=release-debug-common

@@ -22,7 +22,6 @@
 #include "main/pipeline/semantic_extension/SemanticExtension.h"
 
 template class std::vector<std::pair<unsigned int, unsigned int>>;
-template class std::shared_ptr<sorbet::core::GlobalState>;
 template class std::unique_ptr<sorbet::core::GlobalState>;
 
 using namespace std;

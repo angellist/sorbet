@@ -1,5 +1,5 @@
 load("@bazel_tools//tools/build_defs/cc:action_names.bzl", "C_COMPILE_ACTION_NAME")
-load("@bazel_tools//tools/cpp:toolchain_utils.bzl", "find_cpp_toolchain")
+load("@rules_cc//cc:find_cc_toolchain.bzl", "find_cc_toolchain")
 
 _HERMETIC_TAR = """
 # If we have gtar installed (darwin), use that instead
@@ -204,7 +204,7 @@ def _build_ruby_impl(ctx):
     src_dir = ctx.label.workspace_root
 
     # Setup toolchains
-    cc_toolchain = find_cpp_toolchain(ctx)
+    cc_toolchain = find_cc_toolchain(ctx)
 
     feature_configuration = cc_common.configure_features(
         ctx = ctx,
@@ -379,7 +379,7 @@ _build_ruby = rule(
         RubyInfo,
         DefaultInfo,
     ],
-    toolchains = ["@bazel_tools//tools/cpp:toolchain_type"],
+    toolchains = ["@rules_cc//cc:toolchain_type"],
     implementation = _build_ruby_impl,
 )
 
@@ -493,7 +493,7 @@ _ruby_binary = rule(
 def _uses_headers(ctx, paths, headers):
     ruby_info = ctx.attr.ruby[RubyInfo]
 
-    cc_toolchain = find_cpp_toolchain(ctx)
+    cc_toolchain = find_cc_toolchain(ctx)
 
     feature_configuration = cc_common.configure_features(
         ctx = ctx,
@@ -536,7 +536,7 @@ _ruby_headers = rule(
         DefaultInfo,
         CcInfo,
     ],
-    toolchains = ["@bazel_tools//tools/cpp:toolchain_type"],
+    toolchains = ["@rules_cc//cc:toolchain_type"],
     implementation = _ruby_headers_impl,
 )
 
@@ -561,7 +561,7 @@ _ruby_internal_headers = rule(
         DefaultInfo,
         CcInfo,
     ],
-    toolchains = ["@bazel_tools//tools/cpp:toolchain_type"],
+    toolchains = ["@rules_cc//cc:toolchain_type"],
     implementation = _ruby_internal_headers_impl,
 )
 
@@ -569,7 +569,7 @@ def _rubyfmt_static_deps_impl(ctx):
     ruby_info = ctx.attr.ruby[RubyInfo]
 
     libs = [ruby_info.static_lib_ruby, ruby_info.static_lib_ripper]
-    cc_toolchain = find_cpp_toolchain(ctx)
+    cc_toolchain = find_cc_toolchain(ctx)
 
     cc_toolchain = ctx.attr._cc_toolchain[cc_common.CcToolchainInfo]
     feature_configuration = cc_common.configure_features(
@@ -637,6 +637,7 @@ def ruby(rubygems, gems, extra_srcs = None, append_srcs = None, configure_flags 
         # This is a hack because macOS Catalina changed the way that system headers and libraries work.
         sysroot_flag = select({
             "@com_stripe_ruby_typer//tools/config:darwin": "-isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+            "@com_stripe_ruby_typer//tools/config:darwin_arm64": "-isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
             "//conditions:default": "",
         }),
         post_build_patches = post_build_patches,

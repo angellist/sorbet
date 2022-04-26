@@ -7,7 +7,6 @@
 #include "absl/strings/match.h"
 
 template class std::vector<std::shared_ptr<sorbet::core::File>>;
-template class std::shared_ptr<sorbet::core::File>;
 using namespace std;
 
 namespace sorbet::core {

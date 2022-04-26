@@ -47,6 +47,9 @@ ruby(
         "@com_stripe_ruby_typer//tools/config:darwin": [
             "-mlinker-version=400",
         ],
+        "@com_stripe_ruby_typer//tools/config:darwin_arm64": [
+            "-mlinker-version=400",
+        ],
         "//conditions:default": [],
     }),
     rubygems = "@rubygems_update_stripe//file",
@@ -54,6 +57,10 @@ ruby(
         "@com_stripe_ruby_typer//tools/config:darwin": [
             "@system_ssl_darwin//:ssl",
             "@system_ssl_darwin//:crypto",
+        ],
+        "@com_stripe_ruby_typer//tools/config:darwin_arm64": [
+            "@system_ssl_darwin_arm64//:ssl",
+            "@system_ssl_darwin_arm64//:crypto",
         ],
         "@com_stripe_ruby_typer//tools/config:linux": [
             "@system_ssl_linux//:ssl",

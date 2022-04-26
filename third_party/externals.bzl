@@ -14,6 +14,12 @@ def register_sorbet_dependencies():
     )
 
     http_archive(
+        name = "rules_cc",
+        urls = _github_public_urls("bazelbuild/rules_cc/releases/download/0.0.1/rules_cc-0.0.1.tar.gz"),
+        sha256 = "4dccbfd22c0def164c8f47458bd50e0c7148f3d92002cdb459c2a96a68498241",
+    )
+
+    http_archive(
         name = "doctest",
         urls = _github_public_urls("onqtam/doctest/archive/7d42bd0fab6c44010c8aed9338bd02bea5feba41.zip"),
         sha256 = "b33c8e954d15a146bb744ca29f4ca204b955530f52b2f8a895746a99cee4f2df",
@@ -167,12 +173,15 @@ def register_sorbet_dependencies():
         strip_prefix = "bazel-compilation-database-6b9329e37295eab431f82af5fe24219865403e0f",
     )
 
-    # NOTE: we use the sorbet branch for development to keep our changes rebasable on grailio/bazel-toolchain
+    LLVM_TOOLCHAIN_VER = "f353e0a15b96f5aaf915dcc0772794faba899e38"
+    LLVM_TOOLCHAIN_SHA = "b0d6a9fe9b962939c01e2e5ad6dae5d7843d9c8c24df8258ea433634e9b11728"
+
     http_archive(
         name = "com_grail_bazel_toolchain",
-        urls = _github_public_urls("sorbet/bazel-toolchain/archive/a685e1e6bd1e7cc9a5b84f832539585bb68d8ab4.zip"),
-        sha256 = "90c59f14cada755706a38bdd0f5ad8f0402cbf766387929cfbee9c3f1b4c82d7",
-        strip_prefix = "bazel-toolchain-a685e1e6bd1e7cc9a5b84f832539585bb68d8ab4",
+        sha256 = LLVM_TOOLCHAIN_SHA,
+        canonical_id = LLVM_TOOLCHAIN_VER,
+        strip_prefix = "bazel-toolchain-{ver}".format(ver = LLVM_TOOLCHAIN_VER),
+        url = "https://github.com/rrbutani/bazel-toolchain/archive/{ver}.tar.gz".format(ver = LLVM_TOOLCHAIN_VER),
     )
 
     http_archive(
@@ -288,6 +297,12 @@ def register_sorbet_dependencies():
     native.new_local_repository(
         name = "system_ssl_darwin",
         path = "/usr/local/opt/openssl",
+        build_file = "@com_stripe_ruby_typer//third_party/openssl:darwin.BUILD",
+    )
+    
+    native.new_local_repository(
+        name = "system_ssl_darwin_arm64",
+        path = "/opt/homebrew/opt/openssl",
         build_file = "@com_stripe_ruby_typer//third_party/openssl:darwin.BUILD",
     )
 
