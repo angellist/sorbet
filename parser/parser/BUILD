@@ -1,7 +1,6 @@
 licenses(["notice"])
 
 load("@rules_ragel//ragel:ragel.bzl", "ragel")
-load("@rules_bison//bison:bison.bzl", "bison")
 
 ragel(
     name = "ragel_lexer",
@@ -50,23 +49,24 @@ genrule(
     ],
 )
 
-bison(
+genrule(
     name = "typedruby_release_bison",
-    src = "typedruby_release.ypp",
-    bison_options = [
-        "-Wno-empty-rule",
-        "-Wno-precedence",
+    srcs = ["typedruby_release.ypp"],
+    outs = [
+        "typedruby_release.tab.cpp",
+        "typedruby_release_bison.h",
     ],
+    cmd = "bison $(SRCS) --header=$(location typedruby_release_bison.h) -o $(location typedruby_release.tab.cpp)",
 )
 
-bison(
+genrule(
     name = "typedruby_debug_bison",
-    src = "typedruby_debug.ypp",
-    bison_options = [
-        "-Wno-empty-rule",
-        "-Wno-precedence",
-        "--debug",
+    srcs = ["typedruby_debug.ypp"],
+    outs = [
+        "typedruby_debug.tab.cpp",
+        "typedruby_debug_bison.h",
     ],
+    cmd = "bison $(SRCS) --header=$(location typedruby_debug_bison.h) -o $(location typedruby_debug.tab.cpp)",
 )
 
 cc_binary(

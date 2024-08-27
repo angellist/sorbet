@@ -38,10 +38,10 @@ load("@toolchains_llvm//toolchain:rules.bzl", "llvm_toolchain")
 llvm_toolchain(
     name = "llvm_toolchain_15_0_7",
     absolute_paths = True,
-    alternative_llvm_sources = [
-        "https://github.com/sorbet/llvm-project/releases/download/llvmorg-{llvm_version}/{basename}",
-    ],
     llvm_version = "15.0.7",
+    toolchain_roots = {
+      "": "/usr/lib/llvm15/",
+    },
 )
 
 load("@llvm_toolchain_15_0_7//:toolchains.bzl", "llvm_register_toolchains")
@@ -69,18 +69,6 @@ go_register_toolchains(version = "1.20.7")
 load("@rules_ragel//ragel:ragel.bzl", "ragel_register_toolchains")
 
 ragel_register_toolchains()
-
-load("@rules_m4//m4:m4.bzl", "m4_register_toolchains")
-
-m4_register_toolchains()
-
-load("@rules_bison//bison:bison.bzl", "bison_register_toolchains")
-
-bison_register_toolchains(
-    # Clang 12+ introduced this flag. All versions of Bison at time of writing
-    # (up to 3.7.6) include code flagged by this warning.
-    extra_copts = ["-Wno-implicit-const-int-float-conversion"],
-)
 
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 

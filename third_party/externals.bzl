@@ -258,19 +258,6 @@ def register_sorbet_dependencies():
     )
 
     http_archive(
-        name = "rules_bison",
-        url = "https://github.com/jmillikin/rules_bison/archive/478079b28605a38000eaf83719568d756b3383a0.zip",
-        sha256 = "d662d200f4e2a868f6873d666402fa4d413f07ba1a433591c5f60ac601157fb9",
-        strip_prefix = "rules_bison-478079b28605a38000eaf83719568d756b3383a0",
-    )
-
-    http_archive(
-        name = "rules_m4",
-        url = "https://github.com/jmillikin/rules_m4/releases/download/v0.2.1/rules_m4-v0.2.1.tar.xz",
-        sha256 = "f59f75ac8a315d7647a2d058d324a87ff9ebbc4bf5c7a61b08d58da119a7fb43",
-    )
-
-    http_archive(
         name = "cpp_subprocess",
         url = "https://github.com/arun11299/cpp-subprocess/archive/9c624ce4e3423cce9f148bafbae56abfd6437ea0.zip",
         sha256 = "1810d1ec80f3c319dcbb530443b264b9a32a449b5a5d3630076e473648bba8cc",
